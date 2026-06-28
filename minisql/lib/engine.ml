@@ -26,6 +26,23 @@ let execute_stmt (db : db) (stmt : statement) : db * string option =
       let db' = insert_row db into_table values in
       (db', Some "1 row inserted.")
 
+  | Delete { from_table; where_clause} ->
+      let table = get_table db from_table in
+      let kept_rows =
+        match where_clause with
+        | None -> []
+        | Some expr ->
+            List.filter (fun row ->
+              match eval_expr expr row table.schema with
+              | VBool true -> false
+              | VBool false | VNull -> true
+              | _ -> raise (EngineError "WHERE clause must evaluate to a boolean")
+            ) table.rows
+      in 
+      let new_table = { table with rows = kept_rows } in
+      let db' = (from_table, new_table)::List.remove_assoc from_table db in
+      (db',Some "table delted")
+
   | Select { select_list; from_table; where_clause } ->
       let table = get_table db from_table in
       

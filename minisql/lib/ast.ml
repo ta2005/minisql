@@ -27,6 +27,10 @@ type statement =
       columns: Types.column_def list;
     }
   | DropTable of string
+  | Delete of {
+      from_table: string;
+      where_clause: expr option;
+  }
 
 (** Convert a binary operator to string *)
 let string_of_binop = function

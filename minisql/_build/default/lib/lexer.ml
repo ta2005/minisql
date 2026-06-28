@@ -4,9 +4,10 @@ type token =
   | StringLit of string
   | Select | From | Where
   | Insert | Into | Values
-  | Create | Table | Drop
+  | Create | Table | Drop 
   | TInt | TString | TBool
   | And | Or | Not
+  | Delete
   | True | False | Null
   | Eq | Neq | Lt | Lte | Gt | Gte
   | Plus | Minus | Mul | Div
@@ -22,7 +23,8 @@ let keywords = [
   ("create", Create); ("table", Table); ("drop", Drop);
   ("int", TInt); ("string", TString); ("bool", TBool);
   ("and", And); ("or", Or); ("not", Not);
-  ("true", True); ("false", False); ("null", Null)
+  ("true", True); ("false", False); ("null", Null);
+  ("delete", Delete)
 ]
 
 let is_alpha c =

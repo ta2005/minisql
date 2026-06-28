@@ -42,3 +42,4 @@ let insert_row (db : db) (name : string) (row : row) : db =
     (* Prepend row. In a real DB we'd append or insert into an index *)
     let new_table = { t with rows = row :: t.rows } in
     (name, new_table) :: List.remove_assoc name db
+

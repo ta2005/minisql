@@ -131,6 +131,16 @@ let parse_drop (tokens : token list) : statement * token list =
   let (table_name, ts2) = parse_ident ts1 in
   (DropTable table_name, ts2)
 
+
+(** Parse a Delete From stmt *)
+let parse_delete tokens : statement * token list =
+    let ts1 = expect From tokens in
+    let (from_table,ts2) = parse_ident ts1 in
+    let (where_clause, ts4) = parse_where ts2 in
+    (Delete { from_table; where_clause }, ts4)
+
+
+
 (** Parse a single statement *)
 let parse_statement (tokens : token list) : statement * token list =
   match tokens with
@@ -138,6 +148,7 @@ let parse_statement (tokens : token list) : statement * token list =
   | Insert :: ts -> parse_insert ts
   | Create :: ts -> parse_create ts
   | Drop :: ts -> parse_drop ts
+  | Delete :: ts -> parse_delete ts
   | EOF :: _ -> raise (ParseError "Unexpected EOF")
   | _ -> raise (ParseError "Expected statement (SELECT, INSERT, CREATE, DROP)")
 
