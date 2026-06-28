@@ -1,0 +1,3 @@
+(library
+ (name minisql)
+ (public_name minisql))

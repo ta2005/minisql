@@ -1,0 +1,4 @@
+(executable
+ (public_name minisql)
+ (name main)
+ (libraries minisql))

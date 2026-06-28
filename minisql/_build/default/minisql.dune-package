@@ -1,0 +1,92 @@
+(lang dune 3.23)
+(name minisql)
+(sections (lib .) (libexec .) (bin ../../bin))
+(files
+ (lib
+  (META
+   ast.ml
+   dune-package
+   engine.ml
+   eval.ml
+   lexer.ml
+   minisql.a
+   minisql.cma
+   minisql.cmi
+   minisql.cmt
+   minisql.cmx
+   minisql.cmxa
+   minisql.ml
+   minisql__Ast.cmi
+   minisql__Ast.cmt
+   minisql__Ast.cmx
+   minisql__Engine.cmi
+   minisql__Engine.cmt
+   minisql__Engine.cmx
+   minisql__Eval.cmi
+   minisql__Eval.cmt
+   minisql__Eval.cmx
+   minisql__Lexer.cmi
+   minisql__Lexer.cmt
+   minisql__Lexer.cmx
+   minisql__Parser.cmi
+   minisql__Parser.cmt
+   minisql__Parser.cmx
+   minisql__Storage.cmi
+   minisql__Storage.cmt
+   minisql__Storage.cmx
+   minisql__Types.cmi
+   minisql__Types.cmt
+   minisql__Types.cmx
+   opam
+   parser.ml
+   storage.ml
+   types.ml))
+ (libexec (minisql.cmxs))
+ (bin (minisql)))
+(library
+ (name minisql)
+ (kind normal)
+ (archives (byte minisql.cma) (native minisql.cmxa))
+ (plugins (byte minisql.cma) (native minisql.cmxs))
+ (native_archives minisql.a)
+ (main_module_name Minisql)
+ (modes byte native)
+ (modules
+  (wrapped
+   (group
+    (alias
+     (obj_name minisql)
+     (visibility public)
+     (kind alias)
+     (source (path Minisql) (impl (path minisql.ml-gen))))
+    (name Minisql)
+    (modules
+     (module
+      (obj_name minisql__Ast)
+      (visibility public)
+      (source (path Ast) (impl (path ast.ml))))
+     (module
+      (obj_name minisql__Engine)
+      (visibility public)
+      (source (path Engine) (impl (path engine.ml))))
+     (module
+      (obj_name minisql__Eval)
+      (visibility public)
+      (source (path Eval) (impl (path eval.ml))))
+     (module
+      (obj_name minisql__Lexer)
+      (visibility public)
+      (source (path Lexer) (impl (path lexer.ml))))
+     (module
+      (obj_name minisql__Parser)
+      (visibility public)
+      (source (path Parser) (impl (path parser.ml))))
+     (module
+      (obj_name minisql__Storage)
+      (visibility public)
+      (source (path Storage) (impl (path storage.ml))))
+     (module
+      (obj_name minisql__Types)
+      (visibility public)
+      (source (path Types) (impl (path types.ml))))))
+   (wrapped true))))

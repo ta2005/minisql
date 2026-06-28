@@ -1,0 +1,6 @@
+description = ""
+requires = ""
+archive(byte) = "minisql.cma"
+archive(native) = "minisql.cmxa"
+plugin(byte) = "minisql.cma"
+plugin(native) = "minisql.cmxs"
