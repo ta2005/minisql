@@ -30,7 +30,7 @@ let execute_stmt (db : db) (stmt : statement) : db * string option =
       let table = get_table db from_table in
       let kept_rows =
         match where_clause with
-        | None -> table.rows
+        | None -> []
         | Some expr ->
             List.filter (fun row ->
               match eval_expr expr row table.schema with

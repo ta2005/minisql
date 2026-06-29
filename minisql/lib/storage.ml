@@ -33,12 +33,22 @@ let drop_table (db : db) (name : string) : db =
   else
     List.remove_assoc name db
 
+let check_type (a: value) (b: column_def) =
+    match b.data_type, a with 
+    | TInt  ,VInt _-> true
+    | TString  ,VString _-> true
+    | TBool  ,VBool _-> true
+    | _ -> false 
+
+
 (** Insert a row into a table *)
 let insert_row (db : db) (name : string) (row : row) : db =
   let t = get_table db name in
   if List.length t.schema <> List.length row then
     raise (StorageError "Row length does not match schema")
-  else
+  else if not( List.for_all2 check_type row t.schema) then
+    raise (StorageError "Type mismatch")
+  else 
     (* Prepend row. In a real DB we'd append or insert into an index *)
     let new_table = { t with rows = row :: t.rows } in
     (name, new_table) :: List.remove_assoc name db
